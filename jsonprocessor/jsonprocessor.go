@@ -17,6 +17,5 @@ func ProcessJSON[T any](filepath string, body *T) *T {
 	byteValue, _ := ioutil.ReadAll(file)
 
 	json.Unmarshal(byteValue, body)
-
 	return body
 }
