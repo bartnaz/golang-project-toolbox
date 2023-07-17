@@ -15,8 +15,9 @@ func TestProcessJSON(t *testing.T) {
 	filePath, _ := filepath.Abs("test_file.json")
 
 	body := TestStruct{}
-	returnValue := ProcessJSON[TestStruct](filePath, &body)
+	returnValue, err := ProcessJSON[TestStruct](filePath, &body)
 
+	assert.Nil(t, err)
 	assert.NotNil(t, returnValue)
 	assert.Equal(t, 1, returnValue.ID)
 	assert.Equal(t, "Test", returnValue.Name)

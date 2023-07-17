@@ -2,20 +2,26 @@ package jsonprocessor
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 )
 
-func ProcessJSON[T any](filepath string, body *T) *T {
+func ProcessJSON[T any](filepath string, body *T) (*T, error) {
 	file, err := os.Open(filepath)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	defer file.Close()
 
-	byteValue, _ := ioutil.ReadAll(file)
+	byteValue, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
 
-	json.Unmarshal(byteValue, body)
-	return body
+	err = json.Unmarshal(byteValue, body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
 }
